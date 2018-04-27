@@ -1,0 +1,65 @@
+# encoding=utf-8
+
+def sort_priority(value, group):
+	def helper(x):
+		if x in group:
+			return (0, x)
+		return (1, x)
+
+	value.sort(key=helper)
+
+
+numbers = [8, 3, 1, 2, 5, 4, 7, 6]
+group = {2, 3, 5, 7}
+sort_priority(numbers, group)
+print(numbers)
+
+
+def sort_priority2(numbers, groups):
+	found = False
+
+	def helper(x):
+		nonlocal found
+		if x in group:
+			found = True  # Seems simple
+			return (0, x)
+		return (1, x)
+
+	numbers.sort(key=helper)
+	return found
+
+
+found = sort_priority2(numbers, group)
+print('Found', found)
+print(numbers)
+
+
+class Sorter:
+	def __init__(self, group):
+		self.group = group
+		self.found = False
+
+	def __call__(self, x):
+		if x in self.group:
+			self.found = True
+			return (0, x)
+		return (1,x)
+
+
+sorter2 = Sorter(group)
+numbers.sort(key=sorter2)
+try:
+	assert sorter2.found == True
+except TypeError:
+	print('type Error')
+
+# pythoon2
+def sort_priority3(number,group):
+	found = [False]
+	def helper(x):
+		if x in group:
+			found[0] = True
+			return (0,x)
+		return (1,x)
+	numbers.sort(key=helper)
+	return found[0]
